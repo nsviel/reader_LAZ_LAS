@@ -21,34 +21,24 @@ def check_file_format(path, format_1, format_2):
     else:
         return False
 
-def open_file(path):
-    if(path == ""):
-        print("[\033[1;32merror\033[0m] Loader - No path given")
-        return;
+def open_selected_files(paths):
+    clouds = []
+    for path in paths:
+        # Check file format
+        if(check_file_format(path, ".las", ".laz") == False):
+            print("[\033[1;31merror\033[0m] Format not accepted [laz, las]")
+            return;
 
-    # If multiple path
-    if(len(path) == 1):
-        path = path[0]
-    elif(len(path) == 2):
-        path = merger.merge_two_las(path[0], path[1])
-    else:
-        print("[\033[1;32merror\033[0m] File selection not supported")
-        exit(0)
+        # If LAZ file, convert it into LAS file
+        format = get_format(path)
+        if(format == ".laz"):
+            path = converter.convert_laz_to_las(path)
 
-    # Check file format
-    if(check_file_format(path, ".las", ".laz") == False):
-        print("[\033[1;32merror\033[0m] Format not accepted [laz, las only]")
-        return;
+        # Get data from file
+        cloud = retrieve_cloud_data(path)
+        clouds.append(cloud)
 
-    # If LAZ file, convert it into LAS file
-    format = get_format(path)
-    if(format == ".laz"):
-        path = converter.convert_laz_to_las(path)
-
-    # Get data from file
-    cloud = retrieve_cloud_data(path)
-
-    return cloud;
+    return clouds;
 
 def retrieve_cloud_data(path):
     with pylas.open(path) as f:
@@ -56,8 +46,8 @@ def retrieve_cloud_data(path):
         print("[\033[1;32mok\033[0m] Opening file \033[1;32m%s\033[0m"% path)
         las = f.read()
         dim = list(las.point_format.dimension_names)
-        print("[\033[1;32m#\033[0m] Dimensions are: \033[1;32m%s\033[0m"% dim)
-        print("[\033[1;32m#\033[0m] Number of points \033[1;32m%s\033[0m"% len(las.points))
+        print("[\033[1;34m#\033[0m] Dimensions are: \033[1;32m%s\033[0m"% dim)
+        print("[\033[1;34m#\033[0m] Number of points \033[1;32m%s\033[0m"% len(las.points))
 
         X = las.X / float(10000)
         Y = las.Y / float(10000)
@@ -70,10 +60,12 @@ def retrieve_cloud_data(path):
         xyz = np.concatenate((x, y, z), axis=0)
 
         cloud =	{
+            "name": "",
             "xyz": 0,
             "I": 0
         }
-
+        head, tail = os.path.split(path)
+        cloud["name"] = tail
         cloud["xyz"] = xyz.transpose()
         cloud["I"] = las.intensity.transpose()
 
@@ -81,4 +73,8 @@ def retrieve_cloud_data(path):
 
 def gui_file_selection():
     path = askopenfilenames(initialdir= "../")
+    if(path == ""):
+        print("[\033[1;31merror\033[0m] Loader - No path given")
+        exit(0)
+        return;
     return path

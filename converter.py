@@ -20,6 +20,6 @@ def convert_laz_to_las(path):
 
         print("[\033[1;32mok\033[0m] Converter - file LAZ to LAS finished")
     else:
-        print("[\033[1;32merror\033[0m] Converter - file is not in LAZ format")
+        print("[\033[1;31merror\033[0m] Converter - file is not in LAZ format")
 
     return path;
