@@ -7,14 +7,18 @@ import os
 
 
 def write_laz_to_las(in_laz, out_las):
+    print("ok")
     las = laspy.read(in_laz)
+    print("ok")
     las = laspy.convert(las)
     las.write(out_las)
 
 def convert_laz_to_las(path):
-    if(path.endswith('.laz')):
+    if(path.endswith('.laz') or path.endswith('.LAZ')):
         print('[\033[1;32mok\033[0m] Converter - working on file \033[1;32m%s\033[0m'% path)
+
         out_las = path.replace('.laz', '.las')
+        out_las = path.replace('.LAZ', '.las')
         write_laz_to_las(path, out_las)
         path = out_las
 
