@@ -5,6 +5,7 @@ from tkinter.filedialog import askopenfilenames
 import os
 import converter
 import merger
+from pathlib import Path
 
 
 def get_format(path):
@@ -52,22 +53,23 @@ def retrieve_cloud_data(path):
         X = las.X / float(10000)
         Y = las.Y / float(10000)
         Z = las.Z / float(10000)
+        I = las.intensity / float(255)
 
         x = np.array([X])
         y = np.array([Y])
         z = np.array([Z])
 
         xyz = np.concatenate((x, y, z), axis=0)
-
+        
         cloud =	{
             "name": "",
             "xyz": 0,
             "I": 0
         }
-        head, tail = os.path.split(path)
-        cloud["name"] = tail
+
+        cloud["name"] = Path(path).stem
         cloud["xyz"] = xyz.transpose()
-        cloud["I"] = las.intensity.transpose()
+        cloud["I"] = I.transpose()
 
         return cloud
 
