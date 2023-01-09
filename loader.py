@@ -46,6 +46,7 @@ def retrieve_cloud_data(path):
         # Read file and display some stats
         print("[\033[1;32mok\033[0m] Opening file \033[1;32m%s\033[0m"% path)
         las = f.read()
+
         dim = list(las.point_format.dimension_names)
         print("[\033[1;34m#\033[0m] Dimensions are: \033[1;32m%s\033[0m"% dim)
         print("[\033[1;34m#\033[0m] Number of points \033[1;32m%s\033[0m"% len(las.points))
@@ -60,7 +61,7 @@ def retrieve_cloud_data(path):
         z = np.array([Z])
 
         xyz = np.concatenate((x, y, z), axis=0)
-        
+
         cloud =	{
             "name": "",
             "xyz": 0,
