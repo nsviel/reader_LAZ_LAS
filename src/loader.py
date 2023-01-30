@@ -1,11 +1,13 @@
 #---------------------------------------------
+from src import converter
+from src import merger
+
+from tkinter.filedialog import askopenfilenames
+from pathlib import Path
+
+import os
 import numpy as np
 import pylas
-from tkinter.filedialog import askopenfilenames
-import os
-import converter
-import merger
-from pathlib import Path
 
 
 def get_format(path):
@@ -44,7 +46,7 @@ def open_selected_files(paths):
 def retrieve_cloud_data(path):
     with pylas.open(path) as f:
         # Read file and display some stats
-        print("[\033[1;32mok\033[0m] Opening file \033[1;32m%s\033[0m"% path)
+        print("[\033[1;34m#\033[0m] Opening file \033[1;32m%s\033[0m"% path)
         las = f.read()
 
         dim = list(las.point_format.dimension_names)

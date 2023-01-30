@@ -1,8 +1,8 @@
 #---------------------------------------------
-import loader
-import exporter
-import merger
-import centerer
+from src import loader
+from src import exporter
+from src import merger
+from src import centerer
 
 #TODO:
 # - Faire function pour merge si plusieurs
@@ -10,7 +10,7 @@ import centerer
 # - centrage du nuage
 
 
-print("--- \033[1;32mStart program\033[0m ---")
+print("--- \033[1;34mStart program\033[0m ---")
 #---------------------------
 
 path_file = loader.gui_file_selection()
@@ -22,4 +22,4 @@ for cloud in clouds:
     exporter.export_cloud(path_export, cloud)
 
 #---------------------------
-print("--- \033[1;32mClose program\033[0m ---")
+print("--- \033[1;34mClose program\033[0m ---")

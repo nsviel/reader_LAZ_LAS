@@ -1,6 +1,7 @@
 #---------------------------------------------
 import os
 
+
 def compute_merging(clouds):
     if(len(clouds) == 2):
         if(merge_two_las(clouds[0], clouds[1])):
@@ -35,7 +36,7 @@ def ask_for_merging(name_1, name_2):
 
 def merge_two_las(cloud_1, cloud_2):
     if(ask_for_merging(cloud_1["name"], cloud_2["name"])):
-        print("[\033[1;32mok\033[0m] Merging \033[1;32m%s\033[0m and \033[1;32m%s\033[0m"% (cloud_1["name"], cloud_2["name"]))
+        print("[\033[1;34m#\033[0m] Merging \033[1;32m%s\033[0m and \033[1;32m%s\033[0m"% (cloud_1["name"], cloud_2["name"]))
         cloud_1["xyz"] = np.concatenate((cloud_1["xyz"], cloud_2["xyz"]), axis=1)
         cloud_1["I"] = np.concatenate((cloud_1["I"], cloud_2["I"]), axis=1)
         print("[\033[1;32mok\033[0m] Merging done")

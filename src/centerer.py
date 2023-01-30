@@ -4,7 +4,7 @@
 def recenter_cloud(cloud):
     centroid = compute_centroid(cloud)
     cloud = compute_centering(cloud, centroid)
-    print("[\033[1;32mok\033[0m] Cloud recentered by \033[1;32m%s\033[0m"% str(centroid))
+    print("[\033[1;32m#\033[0m] Cloud recentered by \033[1;32m%s\033[0m"% str(centroid))
 
 def compute_centroid(cloud):
     x = 0
